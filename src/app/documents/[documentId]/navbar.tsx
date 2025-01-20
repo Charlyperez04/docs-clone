@@ -17,8 +17,6 @@ import Link from "next/link"
 import { BsFilePdf } from "react-icons/bs"
 import { DocumentInput } from "./document-input"
 import { useEditorStore } from "@/store/use-editor-store"
-import { blob } from "stream/consumers"
-
 export const Navbar = () => {
     const {editor} = useEditorStore()
 
