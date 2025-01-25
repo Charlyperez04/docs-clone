@@ -11,24 +11,25 @@ import {
     MenubarSubTrigger,
     MenubarTrigger
 } from "@/components/ui/menubar"
+import { useEditorStore } from "@/store/use-editor-store"
+import { OrganizationSwitcher, UserButton } from "@clerk/nextjs"
 import { BoldIcon, FileIcon, FileJsonIcon, FilePenIcon, FilePlusIcon, FileTextIcon, GlobeIcon, ItalicIcon, PrinterIcon, RemoveFormattingIcon, StrikethroughIcon, TextIcon, TrashIcon, UnderlineIcon, Undo2Icon } from "lucide-react"
 import Image from "next/image"
 import Link from "next/link"
 import { BsFilePdf } from "react-icons/bs"
 import { DocumentInput } from "./document-input"
-import { useEditorStore } from "@/store/use-editor-store"
 export const Navbar = () => {
-    const {editor} = useEditorStore()
+    const { editor } = useEditorStore()
 
-    const insertTable = ({rows, cols} : {rows: number, cols: number}) => {
+    const insertTable = ({ rows, cols }: { rows: number, cols: number }) => {
         editor
             ?.chain()
             .focus()
-            .insertTable({rows, cols, withHeaderRow: false})
+            .insertTable({ rows, cols, withHeaderRow: false })
             .run()
     }
 
-    const onDownload = (blob: Blob, filename:string) => {
+    const onDownload = (blob: Blob, filename: string) => {
         const url = URL.createObjectURL(blob)
         const a = document.createElement('a')
         a.href = url
@@ -37,27 +38,27 @@ export const Navbar = () => {
     }
 
     const onSaveJson = () => {
-        if(!editor) return;
+        if (!editor) return;
 
         const content = editor.getJSON()
-        const blob = new Blob([JSON.stringify(content)], {type: 'application/json'})
-        onDownload(blob, 'document.json') 
+        const blob = new Blob([JSON.stringify(content)], { type: 'application/json' })
+        onDownload(blob, 'document.json')
     }
 
     const onSaveHTML = () => {
-        if(!editor) return;
+        if (!editor) return;
 
         const content = editor.getHTML()
-        const blob = new Blob([JSON.stringify(content)], {type: 'text/html'})
-        onDownload(blob, 'document.html') 
+        const blob = new Blob([JSON.stringify(content)], { type: 'text/html' })
+        onDownload(blob, 'document.html')
     }
 
     const onSaveText = () => {
-        if(!editor) return;
+        if (!editor) return;
 
         const content = editor.getText()
-        const blob = new Blob([JSON.stringify(content)], {type: 'text/plain'})
-        onDownload(blob, 'document.txt') 
+        const blob = new Blob([JSON.stringify(content)], { type: 'text/plain' })
+        onDownload(blob, 'document.txt')
     }
     return (
         <nav className="flex items-center justify-between">
@@ -150,16 +151,16 @@ export const Navbar = () => {
                                             Table
                                         </MenubarSubTrigger>
                                         <MenubarSubContent>
-                                            <MenubarItem onClick={() => insertTable({rows: 1, cols: 1})}>
+                                            <MenubarItem onClick={() => insertTable({ rows: 1, cols: 1 })}>
                                                 1 X 1
                                             </MenubarItem>
-                                            <MenubarItem onClick={() => insertTable({rows: 2, cols: 2})}>
+                                            <MenubarItem onClick={() => insertTable({ rows: 2, cols: 2 })}>
                                                 2 X 2
                                             </MenubarItem>
-                                            <MenubarItem onClick={() => insertTable({rows: 3, cols: 3})}>
+                                            <MenubarItem onClick={() => insertTable({ rows: 3, cols: 3 })}>
                                                 3 X 3
                                             </MenubarItem>
-                                            <MenubarItem onClick={() => insertTable({rows: 4, cols: 4})}>
+                                            <MenubarItem onClick={() => insertTable({ rows: 4, cols: 4 })}>
                                                 4 X 4
                                             </MenubarItem>
                                         </MenubarSubContent>
@@ -205,6 +206,16 @@ export const Navbar = () => {
 
                     </div>
                 </div>
+            </div>
+            <div className='flex gap-3 items-center pl-6'>
+                <OrganizationSwitcher
+                    afterCreateOrganizationUrl={'/'}
+                    afterLeaveOrganizationUrl={'/'}
+                    afterSelectOrganizationUrl={'/'}
+                    afterSelectPersonalUrl={'/'}
+
+                />
+                <UserButton />
             </div>
         </nav>
     )

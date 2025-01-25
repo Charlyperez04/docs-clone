@@ -6,6 +6,7 @@ import { useState } from "react";
 import { api } from "../../convex/_generated/api";
 import { Id } from "../../convex/_generated/dataModel";
 import { AlertDialog, AlertDialogContent, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "./ui/alert-dialog";
+import { toast } from "sonner";
 
 interface RemoveDialogProps {
     documentId: Id<"documents">;
@@ -32,7 +33,12 @@ export const RemoveDialog = ({ documentId, children }: RemoveDialogProps) => {
                     <AlertDialogAction disabled={isRemoving} onClick={(e) => {
                         e.stopPropagation();
                         setIsRemoving(true);
-                        remove({ id: documentId }).finally(() => {
+                        remove({ id: documentId })
+                        .catch(()=> toast.error("Failed to delete document"))
+                        .then(() => {
+                            toast.success("Document deleted");
+                        })
+                        .finally(() => {
                             setIsRemoving(false);
                         });
                     }}>
