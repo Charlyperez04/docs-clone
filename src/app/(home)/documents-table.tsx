@@ -11,8 +11,6 @@ interface DocumentsTableProps {
     status: PaginationStatus;
 }
 
-type Props = {}
-
 const DocumentsTable = ({
     documents,
     loadMore,

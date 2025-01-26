@@ -11,11 +11,13 @@ import { ReactNode, useEffect, useMemo, useState } from "react";
 import { toast } from "sonner";
 import { Id } from "../../../../convex/_generated/dataModel";
 import { getDocuments, getUsers } from "./actions";
+import { LEFT_MARGIN_DEFAULT, RIGHT_MARGIN_DEFAULT } from "@/constants/margins";
 
 type User = {
     id: string;
     name: string;
     avatar: string;
+    color: string;
 }
 
 export function Room({ children }: { children: ReactNode }) {
@@ -73,7 +75,7 @@ export function Room({ children }: { children: ReactNode }) {
                 }))
             }}
         >
-            <RoomProvider id={params.documentId as string} initialStorage={{ leftMargin: 56, rightMargin: 56 }}>
+            <RoomProvider id={params.documentId as string} initialStorage={{ leftMargin: LEFT_MARGIN_DEFAULT, rightMargin: RIGHT_MARGIN_DEFAULT }}>
                 <ClientSideSuspense fallback={<FullScreenLoader label="Room loading..." />}>
                     {children}
                 </ClientSideSuspense>
